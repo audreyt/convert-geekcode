@@ -1,10 +1,9 @@
 package Convert::GeekCode;
 use 5.005;
-
-$Convert::GeekCode::VERSION = '0.60';
-
 use strict;
 use vars qw/@ISA @EXPORT $VERSION $DELIMITER/;
+
+$Convert::GeekCode::VERSION = '0.61';
 
 use YAML ();
 use Exporter;
@@ -15,7 +14,7 @@ Convert::GeekCode - Convert and generate geek code sequences
 
 =head1 VERSION
 
-This document describes version 0.60 of Convert::Geekcode, released November 7, 2010.
+This document describes version 0.61 of Convert::Geekcode, released November 7, 2010.
 
 =head1 SYNOPSIS
 
@@ -48,8 +47,8 @@ and may be used to generate / decode geek code blocks, respectively.
 
 =cut
 
-@ISA	= qw/Exporter/;
-@EXPORT	= qw/geek_encode geek_decode/;
+@ISA       = qw/Exporter/;
+@EXPORT    = qw/geek_encode geek_decode/;
 $DELIMITER = " ";
 
 sub new {
@@ -57,54 +56,56 @@ sub new {
     my $id      = shift || 'geekcode';
     my $version = shift || '3.12';
     my $lang    = shift || 'en_us';
-    my ($cursec, $curcode, $curval);
+    my ( $cursec, $curcode, $curval );
 
-    $lang =~ tr/-/_/; # paranoia
+    $lang =~ tr/-/_/;    # paranoia
 
     my $file = locate("$id/$version/$lang.yml")
-        or die "cannot locate $id/$version/$lang.yml in @INC";
-        
+      or die "cannot locate $id/$version/$lang.yml in @INC";
+
     my $self = YAML::LoadFile($file);
-    return bless($self, $class);
+    return bless( $self, $class );
 }
 
 sub decode {
-    my ($self, $code) = @_;
+    my ( $self, $code ) = @_;
 
     die "can't find geek code block; stop."
-	unless $code =~ m|\Q$self->{Head}\E([\x00-\xff]+)\Q$self->{Tail}\E|;
+      unless $code =~ m|\Q$self->{Head}\E([\x00-\xff]+)\Q$self->{Tail}\E|;
 
-    $code = $1; $code =~ s|[\x00-\xff]*?^$self->{Begin}|_|m or die;
+    $code = $1;
+    $code =~ s|[\x00-\xff]*?^$self->{Begin}|_|m or die;
 
     my @ret;
 
-    foreach my $chunk (split(/[\s\t\n\r]+/, $code)) {
+    foreach my $chunk ( split( /[\s\t\n\r]+/, $code ) ) {
         next unless $chunk =~ m|^(\!?\w+)\b|;
 
         my $head = $1;
         while ($head) {
-            if (exists($self->{_}{$head})) {
+            if ( exists( $self->{_}{$head} ) ) {
                 my $sec = $self->{_}{$head};
                 my $out;
 
                 push @ret, $sec->{_};
-                $chunk = substr($chunk, length($head));
+                $chunk = substr( $chunk, length($head) );
                 $out = $sec->{''} . $DELIMITER
-                    if !$chunk or $chunk =~ /^[\>\(]/;
+                  if !$chunk
+                      or $chunk =~ /^[\>\(]/;
 
                 while ($chunk) {
-                    next if $self->tokenize($sec, \$chunk, \$out);
-                    next if $self->tokenize($self->{_}{''}, \$chunk, \$out);
+                    next if $self->tokenize( $sec,           \$chunk, \$out );
+                    next if $self->tokenize( $self->{_}{''}, \$chunk, \$out );
 
-                    warn "parse error: ", substr($chunk, 0, 1);
-                    $chunk = substr($chunk, 1);
+                    warn "parse error: ", substr( $chunk, 0, 1 );
+                    $chunk = substr( $chunk, 1 );
                 }
 
                 push @ret, $out;
                 last;
             }
 
-            $head = substr($head, 0, -1);
+            $head = substr( $head, 0, -1 );
         }
     }
 
@@ -112,62 +113,66 @@ sub decode {
 }
 
 sub encode {
-    my ($self, $code) = @_;
+    my ( $self, $code ) = @_;
 
     my @out;
-    foreach my $sec (split(/[\s\t\n\r]+/, $self->{Sequence})) {
+    foreach my $sec ( split( /[\s\t\n\r]+/, $self->{Sequence} ) ) {
         my $secref = $self->{_}{$sec} or next;
         $sec = $self->{Begin} if $sec eq '_';
-        push @out, $code->($secref->{_}, map {
-            my $sym = $secref->{$_};
-            s/[\x27\/]//g;
-            (((index($_, $sec) > -1) 
-		? $_ : ($_ eq '!' ? "$_$sec" : "$sec$_")
-	    ), $sym);
-        } grep {
-            $_ ne '_'
-        } sort {
-            calcv($a) cmp calcv($b);
-        } keys(%{$secref}));
+        push @out, $code->(
+            $secref->{_},
+            map {
+                my $sym  = $secref->{$_};
+                my $code = $_;
+                $code =~ s/[\x27\/]//g;
+                (
+                    (
+                        ( index( $code, $sec ) > -1 )
+                        ? $code
+                        : ( $code eq '!' ? "$code$sec" : "$sec$code" )
+                    ),
+                    $sym
+                );
+              } grep { $_ ne '_' }
+              sort { calcv($a) cmp calcv($b); } keys( %{$secref} )
+        );
 
         $out[-1] =~ s|\s+|/|g;
         $out[-1] =~ s|/+$||;
         $out[-1] =~ s|(?<=.)$sec||g;
     }
 
-    return join("\n",
+    return join( "\n",
         $self->{Head},
-        $self->{Ver}.$self->{Version},
-        join(' ', @out),
-        $self->{Tail},
-        '',
-    );
+        $self->{Ver} . $self->{Version},
+        join( ' ', @out ),
+        $self->{Tail}, '', );
 }
 
 sub calcv {
     my $sym = shift or return '';
 
-    return chr(0) x (10 - length($sym))	if substr($sym, 0, 1) eq '+';
-    return chr(2) x length($sym)	if substr($sym, 0, 1) eq '-';
-    return chr(1)			if $sym eq '';
+    return chr(0) x ( 10 - length($sym) ) if substr( $sym, 0, 1 ) eq '+';
+    return chr(2) x length($sym) if substr( $sym, 0, 1 ) eq '-';
+    return chr(1) if $sym eq '';
     return $sym;
 }
 
 sub tokenize {
-    my ($self, $sec, $chunk, $out) = @_;
+    my ( $self, $sec, $chunk, $out ) = @_;
 
-    foreach my $key (sort {length($b) <=> length($a)} keys(%{$sec})) {
+    foreach my $key ( sort { length($b) <=> length($a) } keys( %{$sec} ) ) {
         next if $key eq '_' or !$key;
 
-        if ($key =~ m|/(.+)/|) {
-            if ($$chunk =~ s|^$1||) {
+        if ( $key =~ m|/(.+)/| ) {
+            if ( $$chunk =~ s|^$1|| ) {
                 $$out .= $sec->{$key} . $DELIMITER;
                 return 1;
             }
         }
-        elsif ($$chunk =~ s/^\Q$key\E//) {
-	    $$out .= $sec->{$key} . $DELIMITER;
-	    return 1;
+        elsif ( $$chunk =~ s/^\Q$key\E// ) {
+            $$out .= $sec->{$key} . $DELIMITER;
+            return 1;
         }
     }
 
@@ -181,10 +186,10 @@ sub locate {
     $path =~ s|::|/|g;
     $path =~ s|\w+\$||;
 
-    unless (-e $file) {
+    unless ( -e $file ) {
         foreach my $inc (@INC) {
-            last if -e ($file = join('/', $inc, $_[0]));
-            last if -e ($file = join('/', $inc, $path, $_[0]));
+            last if -e ( $file = join( '/', $inc, $_[0] ) );
+            last if -e ( $file = join( '/', $inc, $path, $_[0] ) );
         }
     }
 
@@ -193,14 +198,14 @@ sub locate {
 
 sub geek_decode {
     my $code = shift;
-    my $obj = __PACKAGE__->new(@_); # XXX should auto-detect version
+    my $obj  = __PACKAGE__->new(@_);    # XXX should auto-detect version
 
     return $obj->decode($code);
 }
 
 sub geek_encode {
     my $code = shift;
-    my $obj = __PACKAGE__->new(@_); # XXX should auto-detect version
+    my $obj  = __PACKAGE__->new(@_);    # XXX should auto-detect version
 
     return $obj->encode($code);
 }
