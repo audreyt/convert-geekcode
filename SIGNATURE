@@ -1,0 +1,36 @@
+This file contains message digests of all files listed in MANIFEST,
+signed via the Module::Signature module, version 0.28.
+
+To verify the content in this distribution, first make sure you have
+Module::Signature installed, then type:
+
+    % cpansign -v
+
+It would check each file's integrity, as well as the signature's
+validity.  If "==> Signature verified OK! <==" is not displayed,
+the distribution may already have been compromised, and you should
+not run its Makefile.PL or Build.PL.
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+SHA1 ead419c052cc92b633b1efa8edd9bf3528afd81b Changes
+SHA1 753ef8c375c93a313239aeb6827b1857bea96a5e MANIFEST
+SHA1 c139739757e38aa8bde8c1ee1cbb2981e32720ce META.yml
+SHA1 e90f12c21a84b92c4a70d651830ff2dcf760462c Makefile.PL
+SHA1 ea282b3aa094710e0c2a123a1534d74d5436f7b5 README
+SHA1 8b696de8d60f4741d23d7af56a125554ac31dcfb lib/Convert/GeekCode.pm
+SHA1 2d0d2a7c384446e8369d780a2f3359301812514c lib/Convert/GeekCode/geekcode/3.12/en_us.yml
+SHA1 0472779656e6b893116a4a2cd1a8b277f38d7a1e lib/Convert/GeekCode/geekcode/3.12/zh_cn.yml
+SHA1 e7f4e2159276c517f11c1e0d1042ab945dad8445 lib/Convert/GeekCode/geekcode/3.12/zh_tw.yml
+SHA1 d51c05b26c82d9e986a913d520c36753c590c1e5 script/geekdec
+SHA1 a1575ffae74a596ae03e88eb354194c1d792cc2b script/geekgen
+SHA1 144e8250e795d3cc6234dfdafcfb5a112e22e7e9 t/0-signature.t
+SHA1 9df3235189e2c324c911e6cdc3227db2e6b493de t/1-basic.t
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.2.2 (FreeBSD)
+
+iD8DBQE/LTn8tLPdNzw1AaARAuMvAJ9ZqDVjDHdl97szOSOEipJ1dcbl7wCeOWtm
+p+/7+DZJA0M6VByS4xcuEVA=
+=sx8A
+-----END PGP SIGNATURE-----

@@ -1,0 +1,70 @@
+#!/usr/bin/perl -w
+# $File: //member/autrijus/Convert-GeekCode/script/geekdec $ $Author: autrijus $
+# $Revision: #1 $ $Change: 7317 $ $DateTime: 2003/08/03 16:01:41 $
+
+use strict;
+use Text::Wrap;
+use Convert::GeekCode;
+
+my $VERSION = '0.5';
+
+=head1 NAME
+
+geekdec - Geek Code decoder
+
+=head1 SYNOPSIS
+
+B<geekdec> [I<code>|I<version>|I<lang>...] < F<file>
+
+=head1 DESCRIPRTION
+
+This script parses Geek Code sequences read from the stanard
+input, and prints out explanations.
+
+=cut
+
+if (@ARGV and $ARGV[0] eq '-h') {
+    print "Usage: $0 [code|version|lang] << file\n";
+    exit;
+}
+
+my ($code, $ver, $lang) = ('geekcode', 3.12, 'en_us');
+
+foreach (@ARGV) {
+    if (/^[\d\.]+$/) {
+        $ver = $_;
+    }
+    elsif (/^(\w\w)[\-_](\w\w)$/) {
+        $lang = "$1_$2"; # converts en-us to en_us
+    }
+    elsif ($_) {
+        $code = $_;
+    }
+}
+
+my @out = geek_decode(join('', <STDIN>), $code, $ver, $lang);
+
+while (my ($key, $val) = splice(@out, 0, 2)) {
+    print "[$key]\n$val\n\n";
+}
+
+__END__
+
+=head1 SEE ALSO
+
+L<Convert::GeekCode>, L<geekgen>
+
+=head1 AUTHORS
+
+Autrijus Tang E<lt>autrijus@autrijus.orgE<gt>
+
+=head1 COPYRIGHT
+
+Copyright 2001, 2002 by Autrijus Tang E<lt>autrijus@autrijus.orgE<gt>.
+
+This program is free software; you can redistribute it and/or 
+modify it under the same terms as Perl itself.
+
+See L<http://www.perl.com/perl/misc/Artistic.html>
+
+=cut
