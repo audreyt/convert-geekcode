@@ -1,8 +1,7 @@
-# $File: //member/autrijus/Convert-GeekCode/lib/Convert/GeekCode.pm $ $Author: autrijus $
 package Convert::GeekCode;
-require 5.001;
+use 5.005;
 
-$Convert::GeekCode::VERSION = '0.51';
+$Convert::GeekCode::VERSION = '0.60';
 
 use strict;
 use vars qw/@ISA @EXPORT $VERSION $DELIMITER/;
@@ -16,7 +15,7 @@ Convert::GeekCode - Convert and generate geek code sequences
 
 =head1 VERSION
 
-This document describes version 0.51 of PAR, released August 4, 2003.
+This document describes version 0.60 of Convert::Geekcode, released November 7, 2010.
 
 =head1 SYNOPSIS
 
@@ -216,15 +215,15 @@ L<geekgen>, L<geekdec>, L<YAML>
 
 =head1 AUTHORS
 
-Autrijus Tang E<lt>autrijus@autrijus.orgE<gt>
+唐鳳 E<lt>cpan@audreyt.orgE<gt>
 
-=head1 COPYRIGHT
+=head1 CC0 1.0 Universal
 
-Copyright 2001, 2002, 2003 by Autrijus Tang E<lt>autrijus@autrijus.orgE<gt>.
+To the extent possible under law, 唐鳳 has waived all copyright and related
+or neighboring rights to Module-Signature.
 
-This program is free software; you can redistribute it and/or 
-modify it under the same terms as Perl itself.
+This work is published from Taiwan.
 
-See L<http://www.perl.com/perl/misc/Artistic.html>
+L<http://creativecommons.org/publicdomain/zero/1.0>
 
 =cut

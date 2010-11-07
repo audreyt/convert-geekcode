@@ -1,32 +1,17 @@
-____________________________________________________________________________
-[  7318] By: autrijus                              on 2003/08/03  16:04:13
-        Log: * This be 0.51.
-             * switch from .yaml to .yml.
-             * update copyright year.
-	   ! README lib/Convert/GeekCode.pm
-____________________________________________________________________________
-[  7317] By: autrijus                              on 2003/08/03  16:01:41
-        Log: * massive rename.
-	  +> lib/Convert/GeekCode.pm
-	  +> lib/Convert/GeekCode/geekcode/3.12/en_us.yml
-	  +> lib/Convert/GeekCode/geekcode/3.12/zh_cn.yml
-	  +> lib/Convert/GeekCode/geekcode/3.12/zh_tw.yml
-	  +> script/geekdec script/geekgen t/0-signature.t
-	  +> t/1-basic.t
-	   - GeekCode.pm GeekCode/geekcode/3.12/en_us.yaml
-	   - GeekCode/geekcode/3.12/zh_cn.yaml
-	   - GeekCode/geekcode/3.12/zh_tw.yaml bin/geekdec
-	   - bin/geekgen t/GeekCode.t
-	   ! MANIFEST Makefile.PL
-____________________________________________________________________________
-[  7316] By: autrijus                              on 2003/08/03  15:57:39
-        Log: * bump version to 0.51.
-	   ! GeekCode.pm
-____________________________________________________________________________
-[  5083] By: autrijus                              on 2003/04/01  18:08:06
-        Log: * somebody points out that e* is missing. duh.
-             * some more translation.
-             * simplified chinese version.
-	   + GeekCode/geekcode/3.12/zh_cn.yaml
-	   ! GeekCode/geekcode/3.12/en_us.yaml
-	   ! GeekCode/geekcode/3.12/zh_tw.yaml MANIFEST
+[Changes for 0.60 - 2010-11-07]
+
+* LICENSING CHANGE: This compilation and all individual files in it
+  are now under the nullary CC0 1.0 Universal terms:
+
+  To the extent possible under law, 唐鳳 has waived all copyright and
+  related or neighboring rights to Module-Signature.
+
+* Updated to Module::Install::DSL 1.00.
+
+* Update YAML translations to UTF-8, as reported by CPAN testers.
+
+[Changes for 0.51 - 2003-08-03]
+
+* Switch from .yaml to .yml.
+* Add the missing e* code.
+* Add a simplified chinese version.

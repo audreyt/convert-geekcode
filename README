@@ -1,29 +1,48 @@
-# $File: //member/autrijus/Convert-GeekCode/README $ $Author: autrijus $
-# $Revision: #2 $ $Change: 7318 $ $DateTime: 2003/08/03 16:04:13 $
+NAME
+    Convert::GeekCode - Convert and generate geek code sequences
 
-This is the README file for Conver::GeekCode, an utility module
-to convert and generate geek code sequences, by Autrijus Tang.
+VERSION
+    This document describes version 0.60 of Convert::Geekcode, released
+    November 7, 2010.
 
-Information about Geek Code is available at http://geekcode.com/.
+SYNOPSIS
+        use Convert::GeekCode; # exports geek_decode()
 
-Please see the POD documentations for complete details,
-features, and usage.
+        my @out = geek_decode(q(
+        -----BEGIN GEEK CODE BLOCK-----
+        Version: 3.12
+        GB/C/CM/CS/CC/ED/H/IT/L/M/MU/P/SS/TW/AT d---x s+: a-- C++++ UB++++$
+        P++++$ L+ E--->+ W+++$ N++ !o K w--(++) O-- M-@ !V PS+++ PE Y+>++
+        PGP++ t+ 5? X+ R+++ !tv b++++ DI+++@ D++ G++++ e-(--) h* r++(+) z++*
+        ------END GEEK CODE BLOCK------
+        )); # yes, that's the author's geek code
 
-* Installation
+        my ($key, $val);
+        print "[$key]\n$val\n\n" while (($key, $val) = splice(@out, 0, 2));
 
-Convert::GeekCode uses the standard perl module install process:
+DESCRIPTION
+    Convert::GeekCode converts and generates Geek Code sequences (cf.
+    <http://geekcode.com/>). It supports different langugage codes and
+    user-customizable codesets.
 
-cpansign -v		# see SIGNATURE for details
-perl Makefile.PL
-make
-make test
-make install
+    Since version 0.5, this module uses YAML to represent the geek code
+    tables, for greater readability and ease of deserialization. Please
+    refer to <http://www.yaml.org/> for more related information.
 
-* Copyright
+    The geekgen and geekdec utilities are installed by default, and may be
+    used to generate / decode geek code blocks, respectively.
 
-Copyright 2001, 2002, 2003 by Autrijus Tang <autrijus@autrijus.org>.
+SEE ALSO
+    geekgen, geekdec, YAML
 
-All rights reserved.  You can redistribute and/or modify
-this bundle under the same terms as Perl itself.
+AUTHORS
+    唐鳳 <cpan@audreyt.org>
 
-See <http://www.perl.com/perl/misc/Artistic.html>.
+CC0 1.0 Universal
+    To the extent possible under law, 唐鳳 has waived all copyright and
+    related or neighboring rights to Module-Signature.
+
+    This work is published from Taiwan.
+
+    <http://creativecommons.org/publicdomain/zero/1.0>
+
