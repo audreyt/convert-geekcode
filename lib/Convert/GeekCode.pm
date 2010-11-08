@@ -3,10 +3,12 @@ use 5.005;
 use strict;
 use vars qw/@ISA @EXPORT $VERSION $DELIMITER/;
 
-$Convert::GeekCode::VERSION = '0.61';
+$Convert::GeekCode::VERSION = '0.62';
 
 use YAML ();
 use Exporter;
+
+=encoding utf8
 
 =head1 NAME
 
@@ -14,7 +16,7 @@ Convert::GeekCode - Convert and generate geek code sequences
 
 =head1 VERSION
 
-This document describes version 0.61 of Convert::Geekcode, released November 7, 2010.
+This document describes version 0.62 of Convert::Geekcode, released November 8, 2010.
 
 =head1 SYNOPSIS
 

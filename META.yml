@@ -20,11 +20,11 @@ no_index:
 provides:
   Convert::GeekCode:
     file: lib/Convert/GeekCode.pm
-    version: 0.61
+    version: 0.62
 requires:
   Text::Wrap: 0
   YAML: 0
   perl: 5.005
 resources:
   repository: http://github.com/audreyt/convert-geekcode;
-version: 0.61
+version: 0.62

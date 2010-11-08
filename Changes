@@ -1,3 +1,8 @@
+[Changes for 0.62 - 2010-11-08]
+
+* Added "=encoding utf8" to POD to fix author name display.
+  No functional changes.
+
 [Changes for 0.61 - 2010-11-07]
 
 * Source code and META.yml tidying up; no functional changes.

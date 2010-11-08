@@ -2,8 +2,8 @@ NAME
     Convert::GeekCode - Convert and generate geek code sequences
 
 VERSION
-    This document describes version 0.61 of Convert::Geekcode, released
-    November 7, 2010.
+    This document describes version 0.62 of Convert::Geekcode, released
+    November 8, 2010.
 
 SYNOPSIS
         use Convert::GeekCode; # exports geek_decode()
