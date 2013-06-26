@@ -3,7 +3,7 @@ use 5.005;
 use strict;
 use vars qw/@ISA @EXPORT $VERSION $DELIMITER/;
 
-$Convert::GeekCode::VERSION = '0.62';
+$Convert::GeekCode::VERSION = '0.63';
 
 use YAML ();
 use Exporter;
@@ -13,10 +13,6 @@ use Exporter;
 =head1 NAME
 
 Convert::GeekCode - Convert and generate geek code sequences
-
-=head1 VERSION
-
-This document describes version 0.62 of Convert::Geekcode, released November 8, 2010.
 
 =head1 SYNOPSIS
 
@@ -76,7 +72,8 @@ sub decode {
       unless $code =~ m|\Q$self->{Head}\E([\x00-\xff]+)\Q$self->{Tail}\E|;
 
     $code = $1;
-    $code =~ s|[\x00-\xff]*?^$self->{Begin}|_|m or die;
+    $code =~ s|^\s+||mg; # Strip leading spaces
+    $code =~ s|[\x00-\xff]*?^$self->{Begin}|_|m or die "Sorry, could not decode your Geekcode. Please check if it has the right syntax: http://geekcode.com/\n$code\n";
 
     my @ret;
 
@@ -227,7 +224,7 @@ L<geekgen>, L<geekdec>, L<YAML>
 =head1 CC0 1.0 Universal
 
 To the extent possible under law, 唐鳳 has waived all copyright and related
-or neighboring rights to Module-Signature.
+or neighboring rights to Convert-GeekCode.
 
 This work is published from Taiwan.
 
